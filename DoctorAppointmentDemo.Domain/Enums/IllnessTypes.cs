@@ -1,15 +1,14 @@
-﻿namespace MyDoctorAppointment.Domain.Enums
+﻿namespace DoctorAppointmentDemo.Domain.Enums;
+
+public enum IllnessTypes
 {
-    public enum IllnessTypes
-    {
-        EyeDisease = 1,
+    EyeDisease = 1,
 
-        Infection,
+    Infection,
 
-        DentalDisease,
+    DentalDisease,
 
-        SkinDisease,
+    SkinDisease,
 
-        Ambulance,
-    }
+    Ambulance,
 }

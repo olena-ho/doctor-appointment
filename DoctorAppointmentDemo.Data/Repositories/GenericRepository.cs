@@ -1,74 +1,85 @@
-﻿using MyDoctorAppointment.Data.Configuration;
-using MyDoctorAppointment.Data.Interfaces;
-using MyDoctorAppointment.Domain.Entities;
+﻿using DoctorAppointmentDemo.Data.Configuration;
+using DoctorAppointmentDemo.Data.Interfaces;
+using DoctorAppointmentDemo.Domain.Entities;
 using Newtonsoft.Json;
 
-namespace MyDoctorAppointment.Data.Repositories
+namespace DoctorAppointmentDemo.Data.Repositories;
+
+public abstract class GenericRepository<TSource> : IGenericRepository<TSource> where TSource : Auditable
 {
-    public abstract class GenericRepository<TSource> : IGenericRepository<TSource> where TSource : Auditable
+    public abstract string Path { get; set; }
+
+    public abstract int LastId { get; set; }
+
+    public TSource Create(TSource source)
     {
-        public abstract string Path { get; set; }
+        source.Id = ++LastId;
+        source.CreatedAt = DateTime.Now;
 
-        public abstract int LastId { get; set; }
+        File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Append(source), Formatting.Indented));
+        SaveLastId();
 
-        public TSource Create(TSource source)
+        return source;
+    }
+
+    public bool Delete(int id)
+    {
+        if (GetById(id) is null)
+            return false;
+
+        File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Where(x => x.Id != id), Formatting.Indented));
+
+        return true;
+    }
+
+    public IEnumerable<TSource> GetAll()
+    {
+        var directory = System.IO.Path.GetDirectoryName(Path);
+        if (!Directory.Exists(directory))
         {
-            source.Id = ++LastId;
-            source.CreatedAt = DateTime.Now;
-
-            File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Append(source), Formatting.Indented));
-            SaveLastId();
-
-            return source;
+            Directory.CreateDirectory(directory!);
         }
 
-        public bool Delete(int id)
+        if (!File.Exists(Path))
         {
-            if (GetById(id) is null)
-                return false;
-
-            File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Where(x => x.Id != id), Formatting.Indented));
-
-            return true;
+            File.WriteAllText(Path, "[]");
         }
 
-        public IEnumerable<TSource> GetAll()
+        var json = File.ReadAllText(Path);
+
+        if (string.IsNullOrWhiteSpace(json))
         {
-            if (!File.Exists(Path))
-            {
-                File.WriteAllText(Path, "[]");
-            }
-
-            var json = File.ReadAllText(Path);
-
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                File.WriteAllText(Path, "[]");
-                json = "[]";
-            }
-
-            return JsonConvert.DeserializeObject<List<TSource>>(json)!;
+            json = "[]";
+            File.WriteAllText(Path, json);
         }
 
-        public TSource? GetById(int id)
-        {
-            return GetAll().FirstOrDefault(x => x.Id == id);
-        }
+        return JsonConvert.DeserializeObject<List<TSource>>(json)!;
+    }
 
-        public TSource Update(int id, TSource source)
-        {
-            source.UpdatedAt = DateTime.Now;
-            source.Id = id;
 
-            File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Select(x => x.Id == id ? source : x), Formatting.Indented));
+    public TSource? GetById(int id)
+    {
+        return GetAll().FirstOrDefault(x => x.Id == id);
+    }
 
-            return source;
-        }
+    public TSource Update(int id, TSource source)
+    {
+        source.UpdatedAt = DateTime.Now;
+        source.Id = id;
 
-        public abstract void ShowInfo(TSource source);
+        File.WriteAllText(Path, JsonConvert.SerializeObject(GetAll().Select(x => x.Id == id ? source : x), Formatting.Indented));
 
-        protected abstract void SaveLastId();
+        return source;
+    }
 
-        protected dynamic ReadFromAppSettings() => JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(Constants.AppSettingsPath))!;
+    public abstract void ShowInfo(TSource source);
+
+    protected abstract void SaveLastId();
+
+    protected dynamic ReadFromAppSettings()
+    {
+        var fullPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(AppContext.BaseDirectory, Constants.AppSettingsPath));
+        var json = File.ReadAllText(fullPath);
+        return JsonConvert.DeserializeObject<dynamic>(json)!;
     }
 }

@@ -1,15 +1,14 @@
-﻿namespace MyDoctorAppointment.Domain.Entities
+﻿namespace DoctorAppointmentDemo.Domain.Entities;
+
+public class Appointment : Auditable
 {
-    internal class Appointment : Auditable
-    {
-        public Patient? Patient { get; set; }
+    public Patient? Patient { get; set; }
 
-        public Doctor? Doctor { get; set; }
+    public Doctor? Doctor { get; set; }
 
-        public DateTime DateTimeFrom { get; set; }
+    public DateTime DateTimeFrom { get; set; }
 
-        public DateTime DateTimeTo { get; set; }
+    public DateTime DateTimeTo { get; set; }
 
-        public string? Description { get; set; }
-    }
+    public string? Description { get; set; }
 }

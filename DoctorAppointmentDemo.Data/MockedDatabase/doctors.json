@@ -7,20 +7,32 @@
     "Surname": "Petrov",
     "Phone": null,
     "Email": null,
-    "Id": 2,
-    "CreatedAt": "2024-01-04T21:15:00.5742047+02:00",
+    "Id": 5,
+    "CreatedAt": "2025-06-24T21:49:32.340181+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"
   },
   {
     "DoctorType": 1,
-    "Experience": 20,
-    "Salary": 0.0,
-    "Name": "Vasya",
-    "Surname": "Petrov",
-    "Phone": null,
-    "Email": null,
-    "Id": 3,
-    "CreatedAt": "2024-01-04T21:15:10.6132587+02:00",
+    "Experience": 12,
+    "Salary": 65000.0,
+    "Name": "Myroslav",
+    "Surname": "Trachenko",
+    "Phone": "38 063 722 98 67",
+    "Email": "m.tkchenko@hospital2.org",
+    "Id": 6,
+    "CreatedAt": "2025-07-06T18:10:10.7429697+02:00",
+    "UpdatedAt": "0001-01-01T00:00:00"
+  },
+  {
+    "DoctorType": 2,
+    "Experience": 10,
+    "Salary": 23000.0,
+    "Name": "Ihor",
+    "Surname": "Melnyk",
+    "Phone": "098 768 98 45",
+    "Email": "i.melnyk@hospital2.org",
+    "Id": 7,
+    "CreatedAt": "2025-07-06T19:15:03.1588727+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"
   }
 ]

@@ -1,1 +1,14 @@
-﻿
+[
+  {
+    "IllnessType": 4,
+    "AdditionalInfo": "",
+    "Address": "Chervonoyi Kalyny 76",
+    "Name": "Olena",
+    "Surname": "Pasichnyk",
+    "Phone": "",
+    "Email": "o.pasichnyk@ukr.net",
+    "Id": 1,
+    "CreatedAt": "2025-07-06T19:40:08.2586474+02:00",
+    "UpdatedAt": "2025-07-06T20:28:41.0006256+02:00"
+  }
+]

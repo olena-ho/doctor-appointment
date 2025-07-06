@@ -1,13 +1,12 @@
-﻿using MyDoctorAppointment.Domain.Enums;
+﻿using DoctorAppointmentDemo.Domain.Enums;
 
-namespace MyDoctorAppointment.Domain.Entities
+namespace DoctorAppointmentDemo.Domain.Entities;
+
+public class Patient : UserBase
 {
-    public class Patient : UserBase
-    {
-        public IllnessTypes IllnessType { get; set; }
+    public IllnessTypes IllnessType { get; set; }
 
-        public string? AdditionalInfo { get; set; }
+    public string? AdditionalInfo { get; set; }
 
-        public string? Address { get; set; }
-    }
+    public string? Address { get; set; }
 }

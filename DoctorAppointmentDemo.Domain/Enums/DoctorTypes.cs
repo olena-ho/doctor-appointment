@@ -1,13 +1,12 @@
-﻿namespace MyDoctorAppointment.Domain.Enums
+﻿namespace DoctorAppointmentDemo.Domain.Enums;
+
+public enum DoctorTypes
 {
-    public enum DoctorTypes
-    {
-        Dentist = 1,
+    Dentist = 1,
 
-        Dermatologist,
+    Dermatologist,
 
-        FamilyDoctor,
+    FamilyDoctor,
 
-        Paramedic
-    }
+    Paramedic
 }
